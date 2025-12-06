@@ -21,8 +21,9 @@ python3 --version
 Best of both worlds - run `ghosty` from anywhere while keeping your data with the code!
 
 ```bash
-# 1. Clone or download the repository
-cd ghosty
+# 1. Clone the repository
+git clone https://github.com/ak47man08/ghosty-todo
+cd ghosty-todo
 
 # 2. Create portable.txt file (enables portable mode)
 touch portable.txt          # Linux/Mac
@@ -45,8 +46,9 @@ Now you can:
 ### Option 2: Install with pip (Standard)
 
 ```bash
-# Clone or download the repository
-cd ghosty
+# Clone the repository
+git clone https://github.com/ak47man08/ghosty-todo
+cd ghosty-todo
 
 # Install normally
 pip install .
