@@ -2,7 +2,6 @@
 
 A minimalist, beautiful todo list manager that lives in your terminal.
 
-<!-- Centered image with a glowing purple border -->
 <div style="display: flex; justify-content: center; align-items: center; padding: 40px 0;">
   <img
     src="assets/ghosty-V4.png"
@@ -13,11 +12,13 @@ A minimalist, beautiful todo list manager that lives in your terminal.
       height: auto;
       border-radius: 20px;
       box-shadow: 0 0 20px 6px rgba(128, 0, 128, 0.75), 0 0 40px rgba(128, 0, 128, 0.5);
-      outline: 6px solid rgba(128, 0, 128, 0.75);
+      outline: 6px solid rgba(128, 0, 128, 0.95);
       outline-offset: 0px;
+      transition: transform 0.3s ease;
     "
   />
 </div>
+
 
 ## Requirements
 
@@ -330,5 +331,6 @@ MIT License - Feel free to modify and share!
 Made with love by AK 👻
 
 *Stay spooky and productive!*
+
 
 
