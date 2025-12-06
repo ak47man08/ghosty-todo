@@ -187,9 +187,9 @@ Both contain:
 - `todos.json` - Your todo items
 - `config.json` - Your settings
 
-### Backup Your Data
+## Backup Your Data
 
-## Automatic Backups
+### Automatic Backups
 
 Ghosty automatically creates timestamped backups every time you make changes! 
 
@@ -199,7 +199,7 @@ Backups are stored in:
 
 Ghosty keeps the last 10 backups of each file and automatically removes older ones to save space.
 
-## Manual Backups
+### Manual Backups
 
 Simply copy the data folder:
 
@@ -396,6 +396,7 @@ MIT License - Feel free to modify and share!
 Made with love by AK 👻
 
 *Stay spooky and productive!*
+
 
 
 
