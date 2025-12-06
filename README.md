@@ -24,6 +24,7 @@ A minimalist, beautiful todo list manager that lives in your terminal.
 
 - **Python 3.6 or higher** - [Download Python](https://www.python.org/downloads/)
 - No external dependencies! Pure Python.
+- MS Store Powershell is also recommended.
 
 Check if Python is installed:
 ```bash
@@ -39,14 +40,16 @@ python3 --version
 Best of both worlds - run `ghosty` from anywhere while keeping your data with the code!
 
 ```bash
-# 1. Clone the repository
-git clone https://github.com/ak47man08/ghosty-todo.git
+# 1. Create program directory e.g 'ghosty-todo'
 cd ghosty-todo
+# 2. Clone the repository
+git clone https://github.com/ak47man08/ghosty-todo.git
 
-# 2. Create portable.txt file (enables portable mode)
+# 3. Create portable.txt file (enables portable mode)
 touch portable.txt          # Linux/Mac
 type nul > portable.txt     # Windows CMD
 New-Item portable.txt       # Windows PowerShell
+Create .txt file manually   # Universal
 
 # 3. Install in editable mode
 pip install -e .
@@ -59,7 +62,7 @@ Now you can:
 - ✅ Perfect for cloud folders (Dropbox, Google Drive, etc.)
 - ✅ Edit the code and see changes immediately
 
-**Without portable mode?** Just skip step 2 and data will be stored in `~/.ghosty_todo/`
+**Without portable mode?** Just skip step 3 and data will be stored in `~/.ghosty_todo/`
 
 ### Option 2: Install with pip (Standard)
 
@@ -96,6 +99,8 @@ python "%~dp0ghosty.py" %*
 
 ```bash
 python ghosty.py
+
+# For best experience, choose options 1-3.
 ```
 
 Data will be stored in `~/.ghosty_todo/` by default.
@@ -167,6 +172,63 @@ Switch themes instantly and see the changes in real-time!
 ### Preferences
 - **Reprint list after CLI commands** - Shows updated list after every CLI operation
 - **Show success responses** - Toggle confirmation messages on/off
+
+## Backups, Imports & Exports
+
+### Your Data Location
+
+**Portable Mode:** `.ghosty_data/` folder next to `ghosty.py`  
+**Standard Mode:** `~/.ghosty_todo/` in your home directory
+
+Both contain:
+- `todos.json` - Your todo items
+- `config.json` - Your settings
+
+### Backup Your Data
+
+## Automatic Backups
+
+Ghosty automatically creates timestamped backups every time you make changes! 
+
+Backups are stored in:
+- **Portable Mode:** `.ghosty_data/backups/`
+- **Standard Mode:** `~/.ghosty_todo/backups/`
+
+Ghosty keeps the last 10 backups of each file and automatically removes older ones to save space.
+
+## Manual Backups
+
+Simply copy the data folder:
+
+```bash
+# Portable mode
+cp -r .ghosty_data/ .ghosty_data_backup/
+
+# Standard mode
+cp -r ~/.ghosty_todo/ ~/ghosty_backup/
+
+# Or create a zip
+zip -r ghosty_backup.zip .ghosty_data/
+```
+
+### Restore or Transfer Data
+
+Copy your backed-up folder to the new location and restart Ghosty.
+
+### Sync Across Computers
+
+**Easiest method:** Use portable mode in a cloud folder (Dropbox, Google Drive, etc.)
+
+```bash
+# Install Ghosty in your cloud folder with portable mode
+cd ~/Dropbox/ghosty-todo/
+touch portable.txt
+pip install -e .
+```
+
+Now your todos automatically sync across all computers! ✨
+
+**💡 Tip:** Back up your data regularly, especially before major changes.
 
 ## Storage
 
@@ -266,7 +328,7 @@ RGB values range from 0-255. Use a color picker to find your perfect colors!
 Want your own ASCII art banner?
 
 1. Open `ghosty.py`
-2. Find `ALTERNATE_BANNER` (around line 74)
+2. Find `ALTERNATE_BANNER` (around line 170)
 3. Replace with your ASCII art:
 
 ```python
@@ -331,6 +393,7 @@ MIT License - Feel free to modify and share!
 Made with love by AK 👻
 
 *Stay spooky and productive!*
+
 
 
 
