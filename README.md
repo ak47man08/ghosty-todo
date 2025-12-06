@@ -2,6 +2,23 @@
 
 A minimalist, beautiful todo list manager that lives in your terminal.
 
+<!-- Centered image with a glowing purple border -->
+<div style="display: flex; justify-content: center; align-items: center; padding: 40px 0;">
+  <img
+    src="assetts/ghosty-V$.png"
+    alt="Beautiful!"
+    style="
+      width: 60%;
+      max-width: 800px;
+      height: auto;
+      border-radius: 20px;
+      box-shadow: 0 0 20px 6px rgba(128, 0, 128, 0.75), 0 0 40px rgba(128, 0, 128, 0.5);
+      outline: 6px solid rgba(128, 0, 128, 0.75);
+      outline-offset: 0px;
+    "
+  />
+</div>
+
 ## Requirements
 
 - **Python 3.6 or higher** - [Download Python](https://www.python.org/downloads/)
