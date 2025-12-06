@@ -42,6 +42,7 @@ Best of both worlds - run `ghosty` from anywhere while keeping your data with th
 ```bash
 # 1. Create program directory e.g 'ghosty-todo'
 cd ghosty-todo
+
 # 2. Clone the repository
 git clone https://github.com/ak47man08/ghosty-todo.git
 
@@ -393,6 +394,7 @@ MIT License - Feel free to modify and share!
 Made with love by AK 👻
 
 *Stay spooky and productive!*
+
 
 
 
