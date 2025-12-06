@@ -68,11 +68,13 @@ Now you can:
 ### Option 2: Install with pip (Standard)
 
 ```bash
-# Clone the repository
-git clone https://github.com/ak47man08/ghosty-todo
+# 1. Create program directory e.g 'ghosty-todo'
 cd ghosty-todo
 
-# Install normally
+# 2. Clone the repository
+git clone https://github.com/ak47man08/ghosty-todo.git
+
+# 3. Install normally
 pip install .
 ```
 
@@ -394,6 +396,7 @@ MIT License - Feel free to modify and share!
 Made with love by AK 👻
 
 *Stay spooky and productive!*
+
 
 
 
