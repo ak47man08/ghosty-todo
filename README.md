@@ -40,7 +40,7 @@ Best of both worlds - run `ghosty` from anywhere while keeping your data with th
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/ak47man08/ghosty-todo
+git clone https://github.com/ak47man08/ghosty-todo.git
 cd ghosty-todo
 
 # 2. Create portable.txt file (enables portable mode)
@@ -331,6 +331,7 @@ MIT License - Feel free to modify and share!
 Made with love by AK 👻
 
 *Stay spooky and productive!*
+
 
 
 
