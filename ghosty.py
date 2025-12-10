@@ -12,6 +12,11 @@ from datetime import datetime, timedelta
 from pathlib import Path
 
 # -------------------------
+# Constants
+# -------------------------
+RESPONSE_DURATION = 0.5  # Universal duration for all response messages
+
+# -------------------------
 # Theme System
 # -------------------------
 THEMES = {
@@ -62,7 +67,23 @@ THEMES = {
             "banner_start": (169, 175, 214),   # Dracula Background
             "banner_end": (107, 116, 182)   # Dracula Purple
         }        
-    }
+    },
+    "Space Dark": {
+        "name": "Space Dark",
+        "colors": {
+            "light_grey": (148, 162, 199),  # Purple
+            "dark_grey": (105, 118, 155),   # Cyan
+            "white": (248, 227, 201),       # Foreground
+            "ghost_purple": (244, 167, 110), # Purple
+            "haunted_green": (227, 45, 104), # Green
+            "shadow_blue": (192, 71, 142),  # Cyan
+            "yellow": (119, 92, 146),      # Yellow
+            "red": (207, 32, 42),           # Red
+            "cyan_faint": (226, 82, 81),  # Cyan
+            "banner_start": (33, 55, 119),   # Dracula Background
+            "banner_end": (189, 45, 65)   # Dracula Purple
+        }        
+    },
 }
 
 class G:
@@ -136,15 +157,15 @@ def move_cursor_up(lines=1):
     """Move cursor up specified number of lines"""
     print(f"\033[{lines}F", end="")
 
-def show_error(message, duration=1.0):
+def show_error(message):
     """Display error message for specified duration"""
     print(f"{G.RED}{message}{G.END}")
     sys.stdout.flush()
-    time.sleep(duration)
+    time.sleep(RESPONSE_DURATION)
     move_cursor_up()
     clear_line()
 
-def show_success(message, duration=0.5, force_show=False):
+def show_success(message, force_show=False):
     """Display success message if enabled in config"""
     config = load_config()
     show_responses = config.get("show_responses", True)
@@ -152,17 +173,21 @@ def show_success(message, duration=0.5, force_show=False):
     if show_responses or force_show:
         print(f"{G.HAUNTED_GREEN}{message}{G.END}")
         sys.stdout.flush()
-        time.sleep(duration)
+        time.sleep(RESPONSE_DURATION)
         move_cursor_up()
         clear_line()
 
-def show_info(message, duration=0.5):
+def show_info(message):
     """Display info message"""
-    print(f"{G.CYAN_FAINT}{message}{G.END}")
-    sys.stdout.flush()
-    time.sleep(duration)
-    move_cursor_up()
-    clear_line()
+    config = load_config()
+    show_responses = config.get("show_responses", True)
+    
+    if show_responses:
+        print(f"{G.CYAN_FAINT}{message}{G.END}")
+        sys.stdout.flush()
+        time.sleep(RESPONSE_DURATION)
+        move_cursor_up()
+        clear_line()
 
 # Alternate banner - ASCII empty
 ALTERNATE_BANNER = r"""
@@ -244,6 +269,7 @@ def save_todos(todos):
     """Save todos to JSON file"""
     ensure_data_dir()
     try:
+        backup_data()  # Backup before saving
         with open(TODO_FILE, 'w', encoding='utf-8') as f:
             json.dump(todos, f, ensure_ascii=False, indent=2)
     except Exception as e:
@@ -303,10 +329,43 @@ def save_config(config):
     """Save configuration"""
     ensure_data_dir()
     try:
+        backup_data()  # Backup before saving
         with open(CONFIG_FILE, 'w', encoding='utf-8') as f:
             json.dump(config, f, ensure_ascii=False, indent=2)
     except Exception as e:
         print(f"{G.RED}Error saving config: {e}{G.END}")
+
+def backup_data():
+    """Create automatic backup of todos and config"""
+    backup_dir = DATA_DIR / "backups"
+    backup_dir.mkdir(exist_ok=True)
+    
+    try:
+        # Create timestamped backup
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        
+        # Backup todos if exists
+        if TODO_FILE.exists():
+            backup_todos = backup_dir / f"todos_{timestamp}.json"
+            with open(TODO_FILE, 'r', encoding='utf-8') as src:
+                with open(backup_todos, 'w', encoding='utf-8') as dst:
+                    dst.write(src.read())
+        
+        # Backup config if exists
+        if CONFIG_FILE.exists():
+            backup_config = backup_dir / f"config_{timestamp}.json"
+            with open(CONFIG_FILE, 'r', encoding='utf-8') as src:
+                with open(backup_config, 'w', encoding='utf-8') as dst:
+                    dst.write(src.read())
+        
+        # Keep only last 10 backups (optional - removes old ones)
+        all_backups = sorted(backup_dir.glob("*.json"))
+        if len(all_backups) > 20:  # 10 todo + 10 config
+            for old_backup in all_backups[:-20]:
+                old_backup.unlink()
+                
+    except Exception:
+        pass  # Silent fail - don't interrupt user
 
 def time_ago(date_str):
     """Calculate time ago from ISO date string"""
@@ -362,7 +421,7 @@ def themes_menu():
                     selected = themes[idx]
                     config["theme"] = selected
                     save_config(config)
-                    show_success(f"✔ Theme set to: {selected}", 1.0)
+                    show_success(f"✔ Theme set to: {selected}")
                 else:
                     show_error("✖ Invalid theme number")
             except (ValueError, IndexError):
@@ -399,11 +458,11 @@ def appearance_menu():
                 if option == 1:
                     config["alternate_banner"] = not config.get("alternate_banner", False)
                     status = "ON" if config["alternate_banner"] else "OFF"
-                    show_success(f"✔ Alternate Banner: {status}", 1.0)
+                    show_success(f"✔ Alternate Banner: {status}")
                 elif option == 2:
                     config["hide_banner"] = not config.get("hide_banner", False)
                     status = "ON" if config["hide_banner"] else "OFF"
-                    show_success(f"✔ Hide Banner: {status}", 1.0)
+                    show_success(f"✔ Hide Banner: {status}")
                 else:
                     show_error("✖ Invalid option")
                 save_config(config)
@@ -441,12 +500,12 @@ def preferences_menu():
                 if option == 1:
                     config["reprint_list"] = not config.get("reprint_list", True)
                     status = "ON" if config["reprint_list"] else "OFF"
-                    show_success(f"✔ Reprint list: {status}", 1.0)
+                    show_success(f"✔ Reprint list: {status}")
                     save_config(config)
                 elif option == 2:
                     config["show_responses"] = not config.get("show_responses", True)
                     status = "ON" if config["show_responses"] else "OFF"
-                    show_success(f"✔ Show responses: {status}", 1.0, force_show=True)
+                    show_success(f"✔ Show responses: {status}", force_show=True)
                     save_config(config)
                 else:
                     show_error("✖ Invalid option")
@@ -568,7 +627,7 @@ def edit_focuses_menu():
                     focuses.append(name)
                     config["focuses"] = focuses
                     save_config(config)
-                    show_success(f"✔ Added focus: {name}", 1.0)
+                    show_success(f"✔ Added focus: {name}")
             else:
                 show_error("✖ Focus name cannot be empty")
         
@@ -593,7 +652,7 @@ def edit_focuses_menu():
                         all_todos = [t for t in all_todos if t.get('focus') != focus_to_remove]
                         save_todos(all_todos)
                         
-                        show_success(f"✔ Removed focus: {focus_to_remove}", 1.0)
+                        show_success(f"✔ Removed focus: {focus_to_remove}")
                 else:
                     show_error("✖ Invalid focus number")
             except (ValueError, IndexError):
@@ -606,7 +665,7 @@ def edit_focuses_menu():
                     selected = focuses[idx]
                     config["current_focus"] = selected
                     save_config(config)
-                    show_success(f"✔ Selected focus: @{selected}", 1.0)
+                    show_success(f"✔ Selected focus: @{selected}")
                 else:
                     show_error("✖ Invalid focus number")
             except (ValueError, IndexError):
@@ -721,7 +780,7 @@ def todo_list_menu():
                 }
                 all_todos.append(new_todo)
                 save_todos(all_todos)
-                show_success(f"✔ Added: \"{text}\"", 1.0)
+                show_success(f"✔ Added: \"{text}\"")
             else:
                 show_error("✖ Todo text cannot be empty")
         
@@ -747,17 +806,20 @@ def todo_list_menu():
                             t.get('created') == todo_to_update.get('created')):
                             if t.get('status') == 'done':
                                 t['status'] = 'pending'
-                                print(f"{G.YELLOW}✖ Unchecked:{G.END} {t['text']}")
+                                if config.get("show_responses", True):
+                                    print(f"{G.YELLOW}✖ Unchecked:{G.END} {t['text']}")
                                 unchecked_count += 1
                             else:
                                 t['status'] = 'done'
-                                print(f"{G.HAUNTED_GREEN}✔ Checked:{G.END} {t['text']}")
+                                if config.get("show_responses", True):
+                                    print(f"{G.HAUNTED_GREEN}✓ Checked:{G.END} {t['text']}")
                                 checked_count += 1
                             break
                 else:
                     show_error(f"✖ Invalid todo number: {num}")
                     continue
-                time.sleep(0.2)  # Brief pause between updates
+                if config.get("show_responses", True):
+                    time.sleep(0.2)  # Brief pause between updates
             
             save_todos(all_todos)
             if checked_count > 0 or unchecked_count > 0:
@@ -766,7 +828,7 @@ def todo_list_menu():
                     summary.append(f"{checked_count} checked")
                 if unchecked_count > 0:
                     summary.append(f"{unchecked_count} unchecked")
-                show_success(f"✔ {', '.join(summary)}", 1.0)
+                show_success(f"✔ {', '.join(summary)}")
         
         elif choice == 'h':
             numbers_input = input(f"{G.CYAN_FAINT}Todo number(s):{G.END} ").strip()
@@ -789,17 +851,20 @@ def todo_list_menu():
                             t.get('created') == todo_to_update.get('created')):
                             if t.get('status') == 'on-hold':
                                 t['status'] = 'pending'
-                                print(f"{G.YELLOW}✔ Unhold:{G.END} {t['text']}")
+                                if config.get("show_responses", True):
+                                    print(f"{G.YELLOW}✓ Unhold:{G.END} {t['text']}")
                                 unheld_count += 1
                             else:
                                 t['status'] = 'on-hold'
-                                print(f"{G.YELLOW}✔ On hold:{G.END} {t['text']}")
+                                if config.get("show_responses", True):
+                                    print(f"{G.YELLOW}✓ On hold:{G.END} {t['text']}")
                                 held_count += 1
                             break
                 else:
                     show_error(f"✖ Invalid todo number: {num}")
                     continue
-                time.sleep(0.2)  # Brief pause between updates
+                if config.get("show_responses", True):
+                    time.sleep(0.2)  # Brief pause between updates
             
             save_todos(all_todos)
             if held_count > 0 or unheld_count > 0:
@@ -808,7 +873,7 @@ def todo_list_menu():
                     summary.append(f"{held_count} on hold")
                 if unheld_count > 0:
                     summary.append(f"{unheld_count} unheld")
-                show_success(f"✔ {', '.join(summary)}", 1.0)
+                show_success(f"✔ {', '.join(summary)}")
         
         elif choice == 'r':
             numbers_input = input(f"{G.CYAN_FAINT}Todo number(s):{G.END} ").strip()
@@ -829,18 +894,20 @@ def todo_list_menu():
                         t.get('text') == todo_to_remove.get('text') and
                         t.get('created') == todo_to_remove.get('created')
                     )]
-                    print(f"{G.RED}✖ Removed:{G.END} {todo_to_remove['text']}")
+                    if config.get("show_responses", True):
+                        print(f"{G.RED}✖ Removed:{G.END} {todo_to_remove['text']}")
                     removed_count += 1
                     # Update todos list for next iteration
                     todos = [t for t in all_todos if t.get('focus') == current_focus]
                 else:
                     show_error(f"✖ Invalid todo number: {num}")
                     continue
-                time.sleep(0.2)  # Brief pause between updates
+                if config.get("show_responses", True):
+                    time.sleep(0.2)  # Brief pause between updates
             
             save_todos(all_todos)
             if removed_count > 0:
-                show_success(f"✔ Removed {removed_count} todo(s)", 1.0)
+                show_success(f"✔ Removed {removed_count} todo(s)")
         
         elif choice == 'b':
             break
@@ -1004,11 +1071,13 @@ def handle_cli(args):
                         t.get('created') == todo_to_update.get('created')):
                         if t.get('status') == 'done':
                             t['status'] = 'pending'
-                            print(f"{G.YELLOW}✖ Unchecked:{G.END} {t['text']}")
+                            if config.get("show_responses", True):
+                                print(f"{G.YELLOW}✖ Unchecked:{G.END} {t['text']}")
                             unchecked_count += 1
                         else:
                             t['status'] = 'done'
-                            print(f"{G.HAUNTED_GREEN}✔ Checked:{G.END} {t['text']}")
+                            if config.get("show_responses", True):
+                                print(f"{G.HAUNTED_GREEN}✓ Checked:{G.END} {t['text']}")
                             checked_count += 1
                         break
             else:
@@ -1054,11 +1123,13 @@ def handle_cli(args):
                         t.get('created') == todo_to_update.get('created')):
                         if t.get('status') == 'on-hold':
                             t['status'] = 'pending'
-                            print(f"{G.YELLOW}✔ Unhold:{G.END} {t['text']}")
+                            if config.get("show_responses", True):
+                                print(f"{G.YELLOW}✓ Unhold:{G.END} {t['text']}")
                             unheld_count += 1
                         else:
                             t['status'] = 'on-hold'
-                            print(f"{G.YELLOW}✔ On hold:{G.END} {t['text']}")
+                            if config.get("show_responses", True):
+                                print(f"{G.YELLOW}✓ On hold:{G.END} {t['text']}")
                             held_count += 1
                         break
             else:
@@ -1102,7 +1173,8 @@ def handle_cli(args):
                     t.get('text') == todo_to_remove.get('text') and
                     t.get('created') == todo_to_remove.get('created')
                 )]
-                print(f"{G.RED}✖ Removed:{G.END} {todo_to_remove['text']}")
+                if config.get("show_responses", True):
+                    print(f"{G.RED}✖ Removed:{G.END} {todo_to_remove['text']}")
                 removed_count += 1
                 # Update todos list for next iteration
                 todos = [t for t in all_todos if t.get('focus') == current_focus]
