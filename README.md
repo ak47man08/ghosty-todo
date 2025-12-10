@@ -3,10 +3,10 @@
 A minimalist, beautiful todo list manager that lives in your terminal.
 
 <p float="left">
-  <img src="assets/ghosty-V4-1.png" />
-  <img src="assets/ghosty-V4-2.png" />
-  <img src="assets/ghosty-V4-3.png" />
-  <img src="assets/ghosty-V4-4.png" />
+  <img src="assets/ghosty-V4-1.png" width=100 />
+  <img src="assets/ghosty-V4-2.png" width=100 />
+  <img src="assets/ghosty-V4-3.png" width=100 />
+  <img src="assets/ghosty-V4-4.png" width=100 />
 </p>
 
 ## Requirements
@@ -383,6 +383,7 @@ MIT License - Feel free to modify and share!
 Made with love by AK 👻
 
 *Stay spooky and productive!*
+
 
 
 
