@@ -13,7 +13,7 @@ A minimalist, beautiful todo list manager that lives in your terminal.
 
 - **Python 3.6 or higher** - [Download Python](https://www.python.org/downloads/)
 - No external dependencies! Pure Python.
-- MS Store Powershell is also recommended.
+- Powershell is also recommended.
 
 Check if Python is installed:
 ```bash
@@ -383,6 +383,7 @@ MIT License - Feel free to modify and share!
 Made with love by AK 👻
 
 *Stay spooky and productive!*
+
 
 
 
