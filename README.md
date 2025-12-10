@@ -2,8 +2,12 @@
 
 A minimalist, beautiful todo list manager that lives in your terminal.
 
-![GHOSTY](assets/ghosty-V4.png)
-
+<p float="left">
+  <img src="assets/ghosty-V4-1.png" />
+  <img src="assets/ghosty-V4-2.png" />
+  <img src="assets/ghosty-V4-3.png" />
+  <img src="assets/ghosty-V4-4.png" />
+</p>
 
 ## Requirements
 
@@ -379,6 +383,7 @@ MIT License - Feel free to modify and share!
 Made with love by AK 👻
 
 *Stay spooky and productive!*
+
 
 
 
