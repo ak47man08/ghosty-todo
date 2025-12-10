@@ -11,14 +11,14 @@ import time
 from datetime import datetime, timedelta
 from pathlib import Path
 
-# -------------------------
+
 # Constants
-# -------------------------
+
 RESPONSE_DURATION = 0.5  # Universal duration for all response messages
 
-# -------------------------
+
 # Theme System
-# -------------------------
+
 THEMES = {
     "Ghosty Classic": {
         "name": "Ghosty Classic",
@@ -118,9 +118,9 @@ def load_theme(theme_name="Ghosty Classic"):
     
     return colors
 
-# -------------------------
+
 # UI / Color helpers
-# -------------------------
+
 def set_terminal_title(title: str):
     try:
         if os.name == 'nt':
@@ -191,12 +191,7 @@ def show_info(message):
 
 # Alternate banner - ASCII empty
 ALTERNATE_BANNER = r"""
-       ________.__                    __          
-      /  _____/|  |__   ____  _______/  |_ ___.__.
-     /   \  ___|  |  \ /  _ \/  ___/\   __<   |  |
-     \    \_\  \   Y  (  <_> )___ \  |  |  \___  |
-      \______  /___|  /\____/____  > |__|  / ____|
-             \/     \/           \/        \/     
+
 """
 
 BANNER = r"""
@@ -229,9 +224,9 @@ def print_banner():
     print(f"{G.GHOST_PURPLE}{G.BOLD}{center_text('[ Ghosty - The ghost in your machine ]', 56)}{G.END}")
     print(f"{G.SHADOW_BLUE}{center_text('[ Made with love - By AK ]', 56)}{G.END}")
 
-# -------------------------
+
 # Data Management
-# -------------------------
+
 def get_data_dir():
     """Get data directory - portable if portable.txt exists in script dir"""
     script_dir = Path(__file__).parent.absolute()
@@ -390,9 +385,9 @@ def time_ago(date_str):
     except Exception:
         return ""
 
-# -------------------------
+
 # Settings Menus
-# -------------------------
+
 def themes_menu():
     """Themes selection menu"""
     while True:
@@ -593,9 +588,9 @@ def settings_menu():
         else:
             show_error("✖ Invalid choice")
 
-# -------------------------
+
 # Focuses Menu
-# -------------------------
+
 def edit_focuses_menu():
     """Interactive focuses management menu"""
     while True:
@@ -676,9 +671,9 @@ def edit_focuses_menu():
         elif choice != '':
             show_error("✖ Invalid choice")
 
-# -------------------------
+
 # Todo List UI
-# -------------------------
+
 def parse_numbers(input_str):
     """Parse comma-separated or space-separated numbers, including ranges"""
     numbers = []
@@ -717,11 +712,11 @@ def display_todo_list(show_banner=True):
     on_hold = sum(1 for t in todos if t.get('status') == 'on-hold')
     pending = total - done - on_hold
     
-    # Header with focus and stats (no indent)
+    # Header with focus and stats
     stats = f"[{done}/{total}]" if total > 0 else "[0/0]"
     print(f"{G.WHITE}@{current_focus}{G.END} {G.DARK_GREY}{stats}{G.END}")
     
-    # Display todos (3 space indent)
+    # Display todos
     if not todos:
         print(f"   {G.LIGHT_GREY}(no todos yet){G.END}")
     else:
@@ -744,14 +739,14 @@ def display_todo_list(show_banner=True):
             
             print(f"   {G.CYAN_FAINT}{idx}.{G.END} {color}{symbol} {text}{age_display}{G.END}")
     
-    # Stats summary (lined up with todos - 3 space indent)
+    # Stats summary
     print()
     if total > 0:
         percentage = int((done / total) * 100) if total > 0 else 0
         print(f"   {G.LIGHT_GREY}{percentage}% of all tasks complete.{G.END}")
         print(f"   {G.HAUNTED_GREEN}{done} done{G.END} {G.LIGHT_GREY}•{G.END} {G.YELLOW}{on_hold} on-hold{G.END} {G.LIGHT_GREY}•{G.END} {G.WHITE}{pending} pending{G.END}")
     
-    # Menu (only show in interactive mode, no indent)
+    # Menu
     if show_banner:
         print()
         print(f"{G.CYAN_FAINT}[a]{G.END} add {G.LIGHT_GREY}•{G.END} {G.CYAN_FAINT}[c]{G.END} check/uncheck {G.LIGHT_GREY}•{G.END} {G.CYAN_FAINT}[h]{G.END} hold {G.LIGHT_GREY}•{G.END} {G.CYAN_FAINT}[r]{G.END} remove {G.LIGHT_GREY}•{G.END} {G.CYAN_FAINT}[b]{G.END} back")
@@ -914,9 +909,9 @@ def todo_list_menu():
         elif choice != '':
             show_error("✖ Invalid choice")
 
-# -------------------------
+
 # Main Menu
-# -------------------------
+
 def main_menu():
     """Display and handle main menu"""
     while True:
@@ -952,9 +947,9 @@ def goodbye_and_exit():
     set_terminal_title("Ghosty - By AK - Goodbye")
     sys.exit(0)
 
-# -------------------------
+
 # CLI Interface
-# -------------------------
+
 def setup_cli():
     """Setup argparse CLI interface with range support"""
     parser = argparse.ArgumentParser(
@@ -1190,9 +1185,9 @@ def handle_cli(args):
             print()
             display_todo_list(show_banner=False)
 
-# -------------------------
+
 # Main Entry Point
-# -------------------------
+
 def main():
     """Main entry point"""
     set_terminal_title("Ghosty Todo - By AK")
@@ -1223,3 +1218,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
