@@ -140,7 +140,7 @@ ghosty r 2-4 6          # Remove todos 2, 3, 4, and 6
 - 📋 Multiple focuses (workspaces) - each with separate todos
 - ⚡ Fast CLI commands with batch operations and range support
 - 📊 Automatic progress tracking with stats
-- 🎨 Multiple themes (Ghosty Classic, Dracula, Tokyo Dark)
+- 🎨 Multiple themes (With more being released!)
 - 💾 Persistent storage with portable mode option
 - ⚙️ Highly customizable settings
 - ⏰ Time tracking (shows how long ago todos were created)
@@ -154,6 +154,7 @@ Access settings through the interactive menu (`ghosty` > Settings):
 - **Ghosty Classic** - Soft purples and greens
 - **Dracula** - Popular dark theme
 - **Tokyo Dark** - Modern dark aesthetic
+- **And much, much more!**
 
 Switch themes instantly and see the changes in real-time!
 
@@ -274,40 +275,37 @@ cp -r ~/.ghosty_todo/ ./.ghosty_data/     # Linux/Mac
 ## Customization
 
 ### Adding Custom Themes
-
 Open `ghosty.py` and find the `THEMES` dictionary (around line 18). Add your theme:
-
 ```python
 THEMES = {
     "Your Theme Name": {
         "name": "Your Theme Name",
         "colors": {
-            "light_grey": (180, 180, 190),
-            "dark_grey": (120, 120, 130),
-            "white": (245, 245, 245),
-            "ghost_purple": (140, 120, 170),
-            "haunted_green": (140, 200, 170),
-            "shadow_blue": (120, 160, 200),
-            "yellow": (230, 200, 120),
-            "red": (220, 80, 80),
-            "cyan_faint": (150, 220, 220),
+            "secondary_text": (180, 180, 190),
+            "muted_info": (120, 120, 130),
+            "primary_text": (245, 245, 245),
+            "headers": (140, 120, 170),
+            "success": (140, 200, 170),
+            "accents": (120, 160, 200),
+            "warnings": (230, 200, 120),
+            "errors": (220, 80, 80),
+            "menu_prompts": (150, 220, 220),
             "banner_start": (110, 110, 115),
             "banner_end": (240, 240, 245)
         }
     }
 }
 ```
-
 **Color Usage Guide:**
-- `light_grey` - Secondary text, decorative elements
-- `dark_grey` - Muted info (stats, time stamps)
-- `white` - Primary text, todo items
-- `ghost_purple` - Headers, titles, branding
-- `haunted_green` - Success messages, completed items
-- `shadow_blue` - Accents, section dividers
-- `yellow` - Warnings, on-hold items
-- `red` - Errors, removed items
-- `cyan_faint` - Menu options, prompts
+- `secondary_text` - Secondary text, decorative elements
+- `muted_info` - Muted info (stats, time stamps)
+- `primary_text` - Primary text, todo items
+- `headers` - Headers, titles, branding
+- `success` - Success messages, completed items
+- `accents` - Accents, section dividers
+- `warnings` - Warnings, on-hold items
+- `errors` - Errors, removed items
+- `menu_prompts` - Menu options, prompts
 - `banner_start` - Gradient start color for banner
 - `banner_end` - Gradient end color for banner
 
@@ -383,6 +381,7 @@ MIT License - Feel free to modify and share!
 Made with love by AK 👻
 
 *Stay spooky and productive!*
+
 
 
 
